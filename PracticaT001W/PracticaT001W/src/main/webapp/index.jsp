@@ -15,5 +15,6 @@
         <h1>Pagina de Almacen Guevara</h1>
         <h4>Inicio Por defecto ¡Bienvenido!</h4>
         <a href="AgregarCargo.jsp">Agregar cargo</a>
+        <a href="ListarCargo.jsp">Listar cargos</a>
     </body>
 </html>

@@ -12,10 +12,10 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <jsp:useBean id="Cargo" scope="session" class="com.test.bean.CargoBean"/>
+        <jsp:useBean id="AgregarCargoBean" scope="session" class="com.test.bean.CargoBean"/>
         <%
             if (request.getParameter("AgregarCargo")!=null) {
-                    String mensaje=Cargo.RegistrarCargo(request);
+                    String mensaje=AgregarCargoBean.RegistrarCargo(request);
                     out.print(mensaje);
                 }
         %>

@@ -8,6 +8,7 @@ package com.test.bean;
 import com.test.conexion.VariablesConexion;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.annotation.PreDestroy;
 import javax.servlet.http.HttpServletRequest;
@@ -64,6 +65,25 @@ public class CargoBean {
             }
         }
         return mensaje;
+    }
+    
+    public String ListaCargo(){
+        StringBuilder salida=new StringBuilder();
+        StringBuilder query=new StringBuilder();
+        query.append(" select nombrecargo from cargo ");
+        try {
+            PreparedStatement pst=conexion.prepareStatement(query.toString());
+            ResultSet res=pst.executeQuery();
+            while (res.next()) {                
+                salida.append("<tr><td>");
+                salida.append(res.getString(1));
+                salida.append("</td></tr>");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println(e);
+        }
+        return salida.toString();
     }
     //g&s
 }
