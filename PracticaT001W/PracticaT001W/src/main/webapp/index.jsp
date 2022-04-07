@@ -16,5 +16,6 @@
         <h4>Inicio Por defecto ¡Bienvenido!</h4>
         <a href="AgregarCargo.jsp">Agregar cargo</a>
         <a href="ListarCargo.jsp">Listar cargos</a>
+        <a href="AgregarEmpleado.jsp">Agregar Empleado</a>
     </body>
 </html>

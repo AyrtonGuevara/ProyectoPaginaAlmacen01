@@ -85,5 +85,24 @@ public class CargoBean {
         }
         return salida.toString();
     }
+    public String SelectCargo(){
+        StringBuilder salida=new StringBuilder();
+        StringBuilder query=new StringBuilder();
+        query.append(" select * from cargo ");
+        try {
+            PreparedStatement pst=conexion.prepareStatement(query.toString());
+            ResultSet res=pst.executeQuery();
+            while (res.next()) {                
+                salida.append("<option value= ");
+                salida.append(res.getInt(1));
+                salida.append(">");
+                salida.append(res.getString(2));
+                salida.append("</option>");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return salida.toString();
+    }
     //g&s
 }
