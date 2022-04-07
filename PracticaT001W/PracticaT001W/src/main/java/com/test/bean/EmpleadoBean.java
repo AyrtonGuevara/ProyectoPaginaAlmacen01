@@ -8,6 +8,7 @@ package com.test.bean;
 import com.test.conexion.VariablesConexion;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.annotation.PreDestroy;
 import javax.servlet.http.HttpServletRequest;
@@ -81,5 +82,35 @@ public class EmpleadoBean {
         }
         return Mensaje;
     }
-    
+    public String ListaEmpleado(){
+        StringBuilder query=new StringBuilder();
+        StringBuilder salida=new StringBuilder();
+        query.append(" select c.NombreCargo, e.NombreEmpleado, e.ApellidoPaternoEmpleado, e.ApellidoMaternoEmpleado ");
+        query.append(" ,e.EdadEmpleado, e.DireccionEmpleado, e.CIEmpleado, e.idEmpleado ");
+        query.append(" from Empleado e inner join Cargo c on c.idCargo=e.CargoidCargo");
+        try {
+            PreparedStatement pst=conexion.prepareStatement(query.toString());
+            ResultSet res=pst.executeQuery();
+            while (res.next()) {                
+                salida.append("<tr><td>");
+                salida.append(res.getString(1));
+                salida.append("</td><td>");
+                salida.append(res.getString(2));
+                salida.append("</td><td>");
+                salida.append(res.getString(3));
+                salida.append(" ");
+                salida.append(res.getString(4));
+                salida.append("</td><td>");
+                salida.append(res.getInt(5));
+                salida.append("</td><td>");
+                salida.append(res.getString(6));
+                salida.append("</td><td>");
+                salida.append(res.getInt(7));     
+                salida.append("</td></tr>");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return salida.toString();
+    }
 }
