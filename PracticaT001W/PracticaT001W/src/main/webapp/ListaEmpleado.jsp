@@ -29,6 +29,6 @@
                <%=ListaEmpleado.ListaEmpleado()%>
             </tbody>
         </table>
-
+            <a href="index.jsp"> inicio</a>
     </body>
 </html>
