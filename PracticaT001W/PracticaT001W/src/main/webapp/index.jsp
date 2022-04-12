@@ -18,6 +18,7 @@
         <a href="ListarCargo.jsp">Listar cargos</a>
         <a href="AgregarEmpleado.jsp">Agregar Empleado</a>
         <a href="ListaEmpleado.jsp">Lista Empleados</a>
-        <a href="AgregarUsuario.jsp">AgregarUsuario</a>
+        <a href="AgregarUsuario.jsp">Agregar Usuario</a>
+        <a href="ListaUsuario.jsp">Listar Usuario</a>
     </body>
 </html>
