@@ -46,7 +46,7 @@ public class CargoBean {
             try {
                 StringBuilder query= new StringBuilder();
                 query.append("insert into cargo ");
-                query.append(" values (?,?) ");
+                query.append(" values (?,?,?) ");
                 //enviando consulta
                 if (AgregarCargo==null) {
                     AgregarCargo=conexion.prepareStatement(query.toString());
@@ -55,6 +55,7 @@ public class CargoBean {
                 String nombreCargo=request.getParameter("NombreCargo");
                 AgregarCargo.setString(1, null);
                 AgregarCargo.setString(2, nombreCargo);
+                AgregarCargo.setString(3, "Activo");
                 mensaje=AgregarCargo.toString();
                 //consulta
                 int registro=AgregarCargo.executeUpdate();

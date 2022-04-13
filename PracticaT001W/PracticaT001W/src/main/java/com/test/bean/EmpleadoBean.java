@@ -5,6 +5,7 @@
  */
 package com.test.bean;
 
+import com.test.clases.EmpleadoPojo;
 import com.test.conexion.VariablesConexion;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -20,7 +21,9 @@ import javax.servlet.http.HttpServletRequest;
 public class EmpleadoBean {
     private Connection conexion;
     private PreparedStatement AgregarEmpleado;
+    private PreparedStatement ModificarEmpleado;
     private VariablesConexion varConexion;
+    private EmpleadoPojo empleadopojo;
     
     //constructor
     public EmpleadoBean()throws SQLException{
@@ -43,7 +46,7 @@ public class EmpleadoBean {
                 //creando consulta
                 StringBuilder query=new StringBuilder();
                 query.append(" insert into Empleado ");
-                query.append(" values (?,?,?,?,?,?,?,?) ");
+                query.append(" values (?,?,?,?,?,?,?,?,?) ");
                 if (AgregarEmpleado==null) {
                     AgregarEmpleado=conexion.prepareStatement(query.toString());
                 }
@@ -61,15 +64,11 @@ public class EmpleadoBean {
                 AgregarEmpleado.setInt(2, Cargo);
                 AgregarEmpleado.setString(3, Nombre);
                 AgregarEmpleado.setString(4, ApellidoPEmpleado);
-                Mensaje=AgregarEmpleado.toString();
                 AgregarEmpleado.setString(5, ApellidoMEmpleado);
-                Mensaje=AgregarEmpleado.toString();
                 AgregarEmpleado.setInt(6, edad2);
-                Mensaje=AgregarEmpleado.toString();
                 AgregarEmpleado.setString(7, Direccion);
-                Mensaje=AgregarEmpleado.toString();
                 AgregarEmpleado.setInt(8, CI2);
-                Mensaje=AgregarEmpleado.toString();
+                AgregarEmpleado.setString(9, "Activo");
                 int resultado=AgregarEmpleado.executeUpdate();
                 if (resultado==1) {
                     Mensaje="Rgistro Exitoso";
@@ -106,6 +105,8 @@ public class EmpleadoBean {
                 salida.append(res.getString(6));
                 salida.append("</td><td>");
                 salida.append(res.getInt(7));     
+                salida.append("</td><td>");
+                salida.append("<a href='ModificarEmpleado.jsp?codEmpleado=").append(res.getInt(8)).append("'>Modificar</a>");     
                 salida.append("</td></tr>");
             }
         } catch (SQLException e) {
@@ -134,4 +135,84 @@ public class EmpleadoBean {
         }
         return salida.toString();
     }
+    public void MostrarEmpleado(String codEmpleado){
+        empleadopojo= new EmpleadoPojo();
+        StringBuilder query=new StringBuilder();
+        query.append(" select idempleado,cargoidcargo,nombreempleado,apellidopaternoempleado,apellidomaternoempleado,edadempleado,direccionempleado,ciempleado ");
+        query.append(" from empleado where idEmpleado = ? ");
+        try {
+            PreparedStatement pst=conexion.prepareStatement(query.toString());
+            pst.setInt(1, Integer.parseInt(codEmpleado));
+            ResultSet res=pst.executeQuery();
+            if (res.next()) {
+                empleadopojo.setCodEmpleado(res.getInt(1));
+                empleadopojo.setCargoEmpleado(res.getInt(2));
+                empleadopojo.setNombreEmpleado(res.getString(3));
+                empleadopojo.setApellidoPaterno(res.getString(4));
+                empleadopojo.setApellidoMaterno(res.getString(5));
+                empleadopojo.setEdadEmpleado(res.getInt(6));
+                empleadopojo.setDireccionEmpleado(res.getString(7));
+                empleadopojo.setCIEmpleado(res.getInt(8));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        
+    }
+    public String ModificarEmpleado(HttpServletRequest request, String CodEmpleado){
+        String mensaje="";
+        if (request==null) {
+            return "";
+        }
+        if (conexion!=null) {
+            try {
+                StringBuilder query=new StringBuilder();
+                query.append(" UPDATE empleado SET CargoidCargo = ?, NombreEmpleado = ?, ApellidoPaternoEmpleado = ?,");
+                query.append(" ApellidoMaternoEmpleado = ?, EdadEmpleado = ?, DireccionEmpleado = ?, CIEmpleado = ? ");
+                query.append(" WHERE (idEmpleado = ?) ");
+                if (ModificarEmpleado==null) {
+                    ModificarEmpleado=conexion.prepareStatement(query.toString());
+                }
+                String Cargo=request.getParameter("cargo");
+                int cargo2=Integer.parseInt(Cargo);
+                String Nombre=request.getParameter("nombre");
+                String ApellidoP=request.getParameter("appaterno");
+                String ApellidoM=request.getParameter("apmaterno");
+                String Edad=request.getParameter("edad");
+                int edad2=Integer.parseInt(Edad);
+                String Direccion=request.getParameter("direccion");
+                String CI=request.getParameter("ci");
+                int ci2=Integer.parseInt(CI);
+                ModificarEmpleado.setInt(1, cargo2);
+                ModificarEmpleado.setString(2, Nombre);
+                ModificarEmpleado.setString(3, ApellidoP);
+                ModificarEmpleado.setString(4, ApellidoM);
+                ModificarEmpleado.setInt(5, edad2);
+                ModificarEmpleado.setString(6, Direccion);
+                ModificarEmpleado.setInt(7, ci2);
+                ModificarEmpleado.setInt(8, Integer.parseInt(CodEmpleado==null?"0":CodEmpleado));
+                int res=ModificarEmpleado.executeUpdate();
+                if (res==1) {
+                    mensaje="modificado con exito";
+                }else{
+                    mensaje="error al modificar";
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return mensaje;
+    }
+    
+    //g$s
+
+    public EmpleadoPojo getEmpleadopojo() {
+        return empleadopojo;
+    }
+
+    public void setEmpleadopojo(EmpleadoPojo empleadopojo) {
+        this.empleadopojo = empleadopojo;
+    }
+    
+    
 }

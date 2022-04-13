@@ -5,6 +5,7 @@
  */
 package com.test.bean;
 
+import com.test.clases.UsuarioPojo;
 import com.test.conexion.VariablesConexion;
 import com.test.encryped.encriptacion;
 import java.sql.Connection;
@@ -21,8 +22,10 @@ import javax.servlet.http.HttpServletRequest;
 public class UsuarioBean {
 
     private PreparedStatement agregarusuario;
+    private PreparedStatement modificarusuario;
     private Connection conexion;
     private VariablesConexion varcon;
+    private UsuarioPojo usuariopojo;
 
     public UsuarioBean() throws SQLException {
         varcon = new VariablesConexion();
@@ -84,9 +87,9 @@ public class UsuarioBean {
         query.append(" inner join rol r on r.idrol=u.RolidRol ");
         query.append(" inner Join empleado e on e.idempleado=u.empleadoidempleado ");
         try {
-            PreparedStatement pst=conexion.prepareStatement(query.toString());
-            ResultSet res=pst.executeQuery();
-            while (res.next()) {                
+            PreparedStatement pst = conexion.prepareStatement(query.toString());
+            ResultSet res = pst.executeQuery();
+            while (res.next()) {
                 salida.append("<td>");
                 salida.append(res.getString(1));
                 salida.append(" ");
@@ -95,6 +98,8 @@ public class UsuarioBean {
                 salida.append(res.getString(3));
                 salida.append("</td><td>");
                 salida.append(res.getString(4));
+                salida.append("</td><td>");
+                salida.append("<a href='ModificarUsuario.jsp?codUsuario=").append(res.getInt(5)).append("'>Modificar </a>");
                 salida.append("</td>");
             }
         } catch (SQLException e) {
@@ -102,4 +107,69 @@ public class UsuarioBean {
         }
         return salida.toString();
     }
+
+    public void MostrarUsuario(String codUsuario) {
+        usuariopojo = new UsuarioPojo();
+        StringBuilder query = new StringBuilder();
+        query.append(" Select idusuario,empleadoidempleado,rolidrol,nombreusuario from usuario where idusuario = ? ");
+        try {
+            PreparedStatement pst = conexion.prepareStatement(query.toString());
+            pst.setInt(1, Integer.parseInt(codUsuario));
+            ResultSet res = pst.executeQuery();
+            if (res.next()) {
+                usuariopojo.setIdUsuario(res.getInt(1));
+                usuariopojo.setEmpleadoUsuario(res.getInt(2));
+                usuariopojo.setRolUsuario(res.getInt(3));
+                usuariopojo.setNombreUsuario(res.getString(4));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public String ModificarUsuario(HttpServletRequest request, String codUsuario) {
+        String mensaje = "";
+        if (request == null) {
+            return "";
+        }
+        if (conexion != null) {
+            try {
+
+                StringBuilder query = new StringBuilder();
+                query.append(" update usuario set empleadoidempleado = ?, rolidrol = ?,nombreusuario=? ");
+                query.append(" where idusuario = ? ");
+                if (modificarusuario == null) {
+                    modificarusuario = conexion.prepareStatement(query.toString());
+                }
+                String idempleado=request.getParameter("empleado");
+                int idempleado2=Integer.parseInt(idempleado);
+                String idrol=request.getParameter("rol");
+                int idrol2=Integer.parseInt(idrol);
+                String nombre=request.getParameter("nombre");
+                modificarusuario.setInt(1, idempleado2);
+                modificarusuario.setInt(2, idrol2);
+                modificarusuario.setString(3, nombre);
+                modificarusuario.setInt(4, Integer.parseInt(codUsuario==null?"0":codUsuario));
+                mensaje=modificarusuario.toString();
+                int res=modificarusuario.executeUpdate();
+                if (res==1) {
+                    mensaje="modificacion exitosa";
+                }else{
+                    mensaje="error en la modificacion";
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return mensaje;
+    }
+
+    public UsuarioPojo getUsuariopojo() {
+        return usuariopojo;
+    }
+
+    public void setUsuariopojo(UsuarioPojo usuariopojo) {
+        this.usuariopojo = usuariopojo;
+    }
+
 }
