@@ -13,8 +13,21 @@
     </head>
     <body>
         <h1>Modificar Cargo</h1>
-        <form>
-            
+        <jsp:useBean id="modificarCargo" scope="session" class="com.test.bean.CargoBean"/>
+        <%
+            //rescatar codigo de cargo
+            String codCargo=request.getParameter("codCargo");
+            //buscando cargo
+            modificarCargo.MostrarCargo(codCargo);
+            if (request.getParameter("Modificar")!=null) {
+                    String salida=modificarCargo.ModidficarCargo(request, codCargo);
+                    out.print(salida);
+                }
+        %>
+        <form method="POST">
+            <input type="text" name="nombreCargo" value="<%=modificarCargo.getModCargo().getNombreCargo()%>">
+            <br>
+            <input type="submit" name="Modificar" value="Modificar">
         </form>
     </body>
 </html>
