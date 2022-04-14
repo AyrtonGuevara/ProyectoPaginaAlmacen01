@@ -6,36 +6,60 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">  
-        <title>JSP Page</title>
-    </head>
-    <body>
-        <jsp:useBean id="AgregarUsuario" scope="session" class="com.test.bean.UsuarioBean"/>
-        <jsp:useBean id="selectEmpleado" scope="session" class="com.test.bean.EmpleadoBean"/>
-        <%
-            if (request.getParameter("registrarUsuario")!=null) {
-                    String mensaje=AgregarUsuario.AgregarUsuario(request);
-                    out.print(mensaje);
-                }
-        %>
-        <h1>Agregar Usuario</h1>
-        <form>
-            <label>Empleado</label>
-            <select name="empleado" class="">
-                <option selected>select</option>
-                <%=selectEmpleado.selectEmpleado()%>
-            </select>
-            <label>Usuario</label>
-            <input type="text" name="Usuario"/>
-            <label>Contraseña</label>
-            <input type="password" name="contrasena"/>
-            <label>Repita la Contraseña</label>
-            <input type="password" name="contrasena2"/>
-            <input type="submit" value="REGISTRAR" name="registrarUsuario">
-        </form>
-        <a href="index.jsp">inicio</a>
-    </body>
+<jsp:include page="Head.jsp"/>
+<title>JSP Page</title>
+<jsp:include page="Menu.jsp"/>
+<jsp:useBean id="AgregarUsuario" scope="session" class="com.test.bean.UsuarioBean"/>
+<jsp:useBean id="selectEmpleado" scope="session" class="com.test.bean.EmpleadoBean"/>
+<jsp:useBean id="selectRol" scope="session" class="com.test.bean.RolBean"/>
+<%
+    if (request.getParameter("registrarUsuario") != null) {
+        String mensaje = AgregarUsuario.AgregarUsuario(request);
+        out.print(mensaje);
+    }
+%>
+<div class="col-md-8">
+    <div class="container card" style="margin-top: 20px">
+        <h1 style="text-align: center" class="card-title">Agregar Usuario</h1>
+        <div class="card-body row">
+            <div class="col-md-1"></div>
+            <div class="col-md-10">
+                <form>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>Empleado</label>
+                            <select name="empleado" class="form-control">
+                                <option selected>select</option>
+                                <%=selectEmpleado.selectEmpleado()%>
+                            </select>
+                        </div>
+                            <div class="col-md-3">
+                            <label>Rol</label>
+                            <select name="rol" class="form-control">
+                                <option value="<%=selectRol.SelectRol()%>">select</option>
+                                <%=selectRol.SelectRol()%>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label>Usuario</label>
+                            <input type="text" name="Usuario" class="form-control"/>
+                        </div>
+                        <div class="col-md-6">
+                            <label>Contraseña</label>
+                            <input type="password" name="contrasena" class="form-control"/>
+                        </div>
+                        <div class="col-md-6">
+                            <label>Repita la Contraseña</label>
+                            <input type="password" name="contrasena2" class="form-control"/>
+                        </div>
+                        <div class="col-md-6"><br>
+                            <input type="submit" value="REGISTRAR" name="registrarUsuario" class="btn btn-info">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
 </html>

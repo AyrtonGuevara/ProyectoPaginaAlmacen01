@@ -83,9 +83,9 @@ public class CargoBean {
                 salida.append("<tr><td>");
                 salida.append(res.getString(1));
                 salida.append("</td><td>");
-                salida.append("<a href='ModificarCargo.jsp?codCargo=").append(res.getInt(2)).append("'>Modificar</a>");
+                salida.append("<a href='ModificarCargo.jsp?codCargo=").append(res.getInt(2)).append("' class='btn btn-warning' >Modificar</a>");
                 salida.append("</td><td>");
-                salida.append("<a href='ListarCargo.jsp?codCargo=").append(res.getInt(2)).append("' onclick='return ConfirmarEliminacion();'>Eliminar</a>");
+                salida.append("<a href='ListarCargo.jsp?codCargo=").append(res.getInt(2)).append("' class='btn btn-danger' onclick='return ConfirmarEliminacion();'>Eliminar</a>");
                 salida.append("</td></tr>");
             }
         } catch (SQLException e) {

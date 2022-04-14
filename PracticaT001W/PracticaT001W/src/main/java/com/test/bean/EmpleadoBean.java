@@ -107,9 +107,9 @@ public class EmpleadoBean {
                 salida.append("</td><td>");
                 salida.append(res.getInt(7));     
                 salida.append("</td><td>");
-                salida.append("<a href='ModificarEmpleado.jsp?codEmpleado=").append(res.getInt(8)).append("'>Modificar</a>");     
+                salida.append("<a href='ModificarEmpleado.jsp?codEmpleado=").append(res.getInt(8)).append("' class='btn btn-warning'>Modificar</a>");     
                 salida.append("</td><td>");
-                salida.append("<a href='ListaEmpleado.jsp?codEmpleado=").append(res.getInt(8)).append("' onclick='return ConfirmarEliminacion();'>Eliminar</a>");     
+                salida.append("<a href='ListaEmpleado.jsp?codEmpleado=").append(res.getInt(8)).append("' class='btn btn-danger' onclick='return ConfirmarEliminacion();'>Eliminar</a>");     
                 salida.append("</td></tr>");
             }
         } catch (SQLException e) {

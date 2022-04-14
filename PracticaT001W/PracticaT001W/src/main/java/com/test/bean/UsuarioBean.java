@@ -100,9 +100,9 @@ public class UsuarioBean {
                 salida.append("</td><td>");
                 salida.append(res.getString(4));
                 salida.append("</td><td>");
-                salida.append("<a href='ModificarUsuario.jsp?codUsuario=").append(res.getInt(5)).append("'>Modificar </a>");
+                salida.append("<a href='ModificarUsuario.jsp?codUsuario=").append(res.getInt(5)).append("' class='btn btn-warning'>Modificar </a>");
                 salida.append("</td><td>");
-                salida.append("<a href='ListaUsuarios.jsp?codUsuario=").append(res.getInt(5)).append("' onclick='ConfirmarEliminacion();'>Eliminar</a>");
+                salida.append("<a href='ListaUsuarios.jsp?codUsuario=").append(res.getInt(5)).append("' class='btn btn-danger' onclick='ConfirmarEliminacion();'>Eliminar</a>");
                 salida.append("</td>");
             }
         } catch (SQLException e) {
