@@ -23,6 +23,7 @@ public class CargoBean {
     private Connection conexion;
     private PreparedStatement AgregarCargo;
     private PreparedStatement ModificarCargo;
+    private PreparedStatement EliminarCargo;
     private VariablesConexion variableConexion;
     private CargoPojo modCargo;
     //constructores
@@ -74,7 +75,7 @@ public class CargoBean {
     public String ListaCargo(){
         StringBuilder salida=new StringBuilder();
         StringBuilder query=new StringBuilder();
-        query.append(" select nombrecargo, idcargo from cargo ");
+        query.append(" select nombrecargo, idcargo from cargo where estado like 'Activo' ");
         try {
             PreparedStatement pst=conexion.prepareStatement(query.toString());
             ResultSet res=pst.executeQuery();
@@ -83,6 +84,8 @@ public class CargoBean {
                 salida.append(res.getString(1));
                 salida.append("</td><td>");
                 salida.append("<a href='ModificarCargo.jsp?codCargo=").append(res.getInt(2)).append("'>Modificar</a>");
+                salida.append("</td><td>");
+                salida.append("<a href='ListarCargo.jsp?codCargo=").append(res.getInt(2)).append("' onclick='return ConfirmarEliminacion();'>Eliminar</a>");
                 salida.append("</td></tr>");
             }
         } catch (SQLException e) {
@@ -156,6 +159,32 @@ public class CargoBean {
                 e.printStackTrace();
             }
         }
+        return salida;
+    }
+    
+    public String EliminarCargo(HttpServletRequest request, String codCargo){
+        String salida="";
+        if (request==null) {
+            return "";
+        }
+        if (conexion!=null) {
+            try {
+                StringBuilder query=new StringBuilder();
+                query.append(" Update cargo set estado='Inactivo' WHERE (`idCargo` = ?) ");
+                EliminarCargo=conexion.prepareStatement(query.toString());
+                EliminarCargo.setInt(1, Integer.parseInt(codCargo));
+                salida=EliminarCargo.toString();
+                int res=EliminarCargo.executeUpdate();
+                if (res==1) {
+                    salida="eliminacion exitosa";
+                }else{
+                    salida="error al eliminar";
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        
         return salida;
     }
     //g&s

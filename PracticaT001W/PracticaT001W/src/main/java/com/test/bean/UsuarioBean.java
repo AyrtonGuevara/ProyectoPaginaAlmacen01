@@ -23,6 +23,7 @@ public class UsuarioBean {
 
     private PreparedStatement agregarusuario;
     private PreparedStatement modificarusuario;
+    private PreparedStatement Eliminarusuario;
     private Connection conexion;
     private VariablesConexion varcon;
     private UsuarioPojo usuariopojo;
@@ -85,7 +86,7 @@ public class UsuarioBean {
         StringBuilder query = new StringBuilder();
         query.append(" select e.nombreempleado, e.apellidopaternoempleado, r.rol, u.NombreUsuario, u.idUsuario from usuario u ");
         query.append(" inner join rol r on r.idrol=u.RolidRol ");
-        query.append(" inner Join empleado e on e.idempleado=u.empleadoidempleado ");
+        query.append(" inner Join empleado e on e.idempleado=u.empleadoidempleado where u.estado like 'Activo' ");
         try {
             PreparedStatement pst = conexion.prepareStatement(query.toString());
             ResultSet res = pst.executeQuery();
@@ -100,6 +101,8 @@ public class UsuarioBean {
                 salida.append(res.getString(4));
                 salida.append("</td><td>");
                 salida.append("<a href='ModificarUsuario.jsp?codUsuario=").append(res.getInt(5)).append("'>Modificar </a>");
+                salida.append("</td><td>");
+                salida.append("<a href='ListaUsuarios.jsp?codUsuario=").append(res.getInt(5)).append("' onclick='ConfirmarEliminacion();'>Eliminar</a>");
                 salida.append("</td>");
             }
         } catch (SQLException e) {
@@ -162,6 +165,29 @@ public class UsuarioBean {
             }
         }
         return mensaje;
+    }
+    public String EliminarUsuario(HttpServletRequest request, String Codigo){
+        String Mensaje ="";
+        if (request ==null) {
+            return "";
+        }
+        if (conexion!=null) {
+            try {
+                StringBuilder query=new StringBuilder();
+                query.append(" update usuario set estado='Inactivo' where idUsuario = ? ");
+                Eliminarusuario=conexion.prepareStatement(query.toString());
+                Eliminarusuario.setInt(1, Integer.parseInt(Codigo));
+                int res=Eliminarusuario.executeUpdate();
+                if (res==1) {
+                    Mensaje="Eliminacion Exitosa";
+                }else{
+                    Mensaje="Error al eliminar";
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return Mensaje;
     }
 
     public UsuarioPojo getUsuariopojo() {

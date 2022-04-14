@@ -10,11 +10,25 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
+        <script type="text/javascript">
+            function ConfirmarEliminacion() {
+                var varcon = confirm("¿seguro?");
+                console.log('varConfirm' + varcon);
+                return varcon;
+            }
+        </script>
     </head>
     <body>
         <h1>Lista de Categorias</h1>
+        <jsp:useBean id="ListaCargoBean" scope="session" class="com.test.bean.CargoBean"/>
+        <%
+            String codCargo = request.getParameter("codCargo");
+            if (codCargo != null) {
+                String Salida = ListaCargoBean.EliminarCargo(request, codCargo);
+                out.print(Salida);
+            }
+        %>
         <table border="1">
-            <jsp:useBean id="ListaCargoBean" scope="session" class="com.test.bean.CargoBean"/>
             <thead>
                 <tr>
                     <th>categoria</th>

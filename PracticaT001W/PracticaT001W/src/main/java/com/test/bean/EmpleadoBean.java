@@ -22,6 +22,7 @@ public class EmpleadoBean {
     private Connection conexion;
     private PreparedStatement AgregarEmpleado;
     private PreparedStatement ModificarEmpleado;
+    private PreparedStatement EliminarEmpleado;
     private VariablesConexion varConexion;
     private EmpleadoPojo empleadopojo;
     
@@ -86,7 +87,7 @@ public class EmpleadoBean {
         StringBuilder salida=new StringBuilder();
         query.append(" select c.NombreCargo, e.NombreEmpleado, e.ApellidoPaternoEmpleado, e.ApellidoMaternoEmpleado ");
         query.append(" ,e.EdadEmpleado, e.DireccionEmpleado, e.CIEmpleado, e.idEmpleado ");
-        query.append(" from Empleado e inner join Cargo c on c.idCargo=e.CargoidCargo");
+        query.append(" from Empleado e inner join Cargo c on c.idCargo=e.CargoidCargo where e.estado like 'Activo' ");
         try {
             PreparedStatement pst=conexion.prepareStatement(query.toString());
             ResultSet res=pst.executeQuery();
@@ -107,6 +108,8 @@ public class EmpleadoBean {
                 salida.append(res.getInt(7));     
                 salida.append("</td><td>");
                 salida.append("<a href='ModificarEmpleado.jsp?codEmpleado=").append(res.getInt(8)).append("'>Modificar</a>");     
+                salida.append("</td><td>");
+                salida.append("<a href='ListaEmpleado.jsp?codEmpleado=").append(res.getInt(8)).append("' onclick='return ConfirmarEliminacion();'>Eliminar</a>");     
                 salida.append("</td></tr>");
             }
         } catch (SQLException e) {
@@ -202,6 +205,29 @@ public class EmpleadoBean {
             }
         }
         return mensaje;
+    }
+    public String EliminarEmpleado(HttpServletRequest request, String codigo){
+        String Mensaje="";
+        if (request==null) {
+            return "";
+        }
+        if (conexion!=null) {
+            try {
+                StringBuilder query = new StringBuilder();
+                query.append(" update empleado set Estado='Inactivo' where idEmpleado = ? ");
+                EliminarEmpleado=conexion.prepareStatement(query.toString());
+                EliminarEmpleado.setInt(1, Integer.parseInt(codigo));
+                int res=EliminarEmpleado.executeUpdate();
+                if (res==1) {
+                    Mensaje="Eliminacion Exitosa";
+                }else{
+                    Mensaje="Error al eliminar";
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return Mensaje;
     }
     
     //g$s

@@ -10,11 +10,26 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
+        <script type="text/javascript">
+            function ConfirmarEliminacion (){
+                var varveri=confirm("¿seguro?");
+                console.log("VarConfirmacion"+varveri);
+                return varveri;
+            }
+        </script>
     </head>
     <body>
         <h1>Lista Usuarios</h1>
         <table border="1">
             <jsp:useBean id="ListaUsuarios" scope="session" class="com.test.bean.UsuarioBean"/>
+            <%
+                String codigo=request.getParameter("codUsuario");
+                if (codigo!=null) {
+                        String Mensaje="";
+                        Mensaje=ListaUsuarios.EliminarUsuario(request, codigo);
+                        out.print(Mensaje);
+                    }
+            %>
             <thead>
                 <tr>
                     <th>Empleado</th>
@@ -28,6 +43,6 @@
                 </tr>
             </tbody>
         </table>
-                <a href="index.jsp"></a>
+                <a href="index.jsp">inicio</a>
     </body>
 </html>
