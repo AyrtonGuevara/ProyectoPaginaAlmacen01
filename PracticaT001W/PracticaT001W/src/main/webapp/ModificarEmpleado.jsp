@@ -63,6 +63,7 @@
                             <br>
                             <input type="submit" name="Modificar" value="Modificar" class="btn btn-info">
                         </div>
+                        </div>
                 </form>
             </div>
         </div>
