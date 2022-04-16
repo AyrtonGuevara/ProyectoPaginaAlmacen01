@@ -101,6 +101,26 @@ public class ProveedorBean {
         }
         return salida.toString();
     }
+    
+    public String SelectProveedor(){
+        StringBuilder query = new StringBuilder();
+        StringBuilder salida = new StringBuilder();
+        query.append(" select  idProveedor, RazonSocialProveedor from proveedor where estado like 'Activo' ");
+        try {
+            PreparedStatement pst = conexion.prepareStatement(query.toString());
+            ResultSet rst = pst.executeQuery();
+            while (rst.next()) {
+                salida.append("<option value='");
+                salida.append(rst.getString(1));
+                salida.append("'>");
+                salida.append(rst.getString(2));
+                salida.append("</option>");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return salida.toString();
+    }
 
     public void BuscarProveedor(String codProveedor) {
         proveedorpojo = new ProveedorPojo();

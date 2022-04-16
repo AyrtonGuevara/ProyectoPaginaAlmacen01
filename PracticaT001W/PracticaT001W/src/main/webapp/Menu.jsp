@@ -72,6 +72,19 @@
                     </div>
                 </div>
             </div>
+            <div class=" card ">
+                <div class=" card card-header">
+                    <a class="card-link btn btn-light" data-toggle="collapse" href="#cinco">Producto</a>
+                </div>
+                <div id="cinco" class="collapse" data-parent="#accordion">
+                    <div class="card-body" style="padding: 0px">
+                        <ul class="list-group-flush" style="padding: 0px">
+                            <li class="list-group-item list-group-item-action"><a href="AgregarProducto.jsp" class="btn btn-light nav-accordion">Agregar Producto</a></li>
+                            <li class="list-group-item list-group-item-action"><a href="ListarProducto.jsp" class="btn btn-light nav-accordion">Listar Productos</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     <div class="col-md-1"></div>
