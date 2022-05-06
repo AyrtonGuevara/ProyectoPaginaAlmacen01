@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
  *
  * @author ayrton
  */
+//remove this line
 public class CargoBean {
     //atributos
     private Connection conexion;
