@@ -18,7 +18,14 @@
                 <jsp:useBean id="pedido" scope="session" class="com.test.bean.PedidoBean" />
                 <form>
                     <%
-                        if (request.getParameter("PROV") != null) {}
+                        if (request.getParameter("Carrito") != null) {
+                            int idproveedor=pedido.getPedidopojo().getProveedor();
+                            float total=pedido.getPedidopojo().getTotalPedido();
+                            int[] listap=pedido.getPedidopojo().getListaProductos();
+                            int cantidadp=pedido.getPedidopojo().getCantidadProductos();
+                            String Mensaje=pedido.finPedido(request,idproveedor,total, listap, cantidadp);
+                            out.print(Mensaje);
+                        }
                         
                     %>
                     <label>Proveedor</label>
@@ -37,6 +44,8 @@
                         </tbody>
                     </table>
                     <input type="submit" name="Carrito" value="Aceptar" class="btn btn-info">
+                    <label style="float: right">Total
+                    <input type="text" name="totalt" value="<%=pedido.getPedidopojo().getTotalPedido()%> Bs." disabled/></label>
                 </form>
             </div>
         </div>
