@@ -99,6 +99,20 @@
                     </div>
                 </div>
             </div>
+            <div class=" card ">
+                <div class=" card card-header">
+                    <a class="card-link btn btn-light" data-toggle="collapse" href="#siete">Cliente</a>
+                </div>
+                
+                <div id="siete" class="collapse" data-parent="#accordion">
+                    <div class="card-body" style="padding: 0px">
+                        <ul class="list-group-flush" style="padding: 0px">
+                            <li class="list-group-item list-group-item-action"><a href="AgregarCliente.jsp" class="btn btn-light nav-accordion">Agregar Cliente</a></li>
+                            <li class="list-group-item list-group-item-action"><a href="ListaClientes.jsp" class="btn btn-light nav-accordion">Listar Clientes</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     <div class="col-md-1"></div>
